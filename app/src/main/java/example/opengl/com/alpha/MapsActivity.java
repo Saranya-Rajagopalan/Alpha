@@ -1,8 +1,11 @@
 package example.opengl.com.alpha;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -15,7 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, NetworkCallback {
+public class MapsActivity extends FragmentActivity implements View.OnClickListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, NetworkCallback {
 
     private GoogleMap mMap;
 
@@ -27,6 +30,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        Button button= (Button)findViewById(R.id.button2);
+        button.setOnClickListener(this);
 
     }
 
@@ -43,9 +48,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        NetworkCalls.get(this, "http://rrajend-in-le01/GarbageWebAPI/api/BinInfo");
+//        NetworkCalls.get(this, "http://rrajend-in-le01/GarbageWebAPI/api/BinInfo");
     }
-
     @Override
     public boolean onMarkerClick(Marker marker) {
         return false;
@@ -67,10 +71,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.getJSONObject(i);
-                        double lng = object.getDouble("LatLocation");
-                        double lat = object.getDouble("LongLocation");
-                        int id = object.getInt("ID");
-                        mMap.addMarker( new MarkerOptions().position(new LatLng(lat, lng)).title(String.valueOf(id))).showInfoWindow();
+                        BinData bin = new BinData(object);
+//                        double lng = object.getDouble("LatLocation");
+//                        double lat = object.getDouble("LongLocation");
+//                        int id = object.getInt("ID");
+                        bin.MarkOnMap(mMap);
+//                        mMap.addMarker( new MarkerOptions().position(new LatLng(lat, lng)).title(String.valueOf(id))).showInfoWindow();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -85,5 +91,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void failure() {
 
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        NetworkCalls.get(this, "http://rrajend-in-le01/GarbageWebAPI/api/BinInfo");
     }
 }

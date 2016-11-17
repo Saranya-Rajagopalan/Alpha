@@ -17,11 +17,11 @@ import java.net.URL;
  */
 
 public class NetworkCalls {
-    public static void post(NetworkCallback callback, String URL){
+    public static void post(MapsActivity callback, String URL){
         new Post(callback, URL).start();
     }
 
-    public static void get(NetworkCallback callback, String URL){
+    public static void get(MapsActivity callback, String URL){
         new Get(callback, URL).start();
     }
 }
@@ -32,7 +32,7 @@ class Post extends Thread{
     private final String URL ;
     private final NetworkCallback callback;
 
-    public Post(NetworkCallback callback, String URL){
+    public Post(MapsActivity callback, String URL){
         this.callback = callback;
         this.URL = URL;
     }
@@ -40,13 +40,9 @@ class Post extends Thread{
     @Override
     public void run() {
         super.run();
-
         String remoteUri = Uri.encode(URL, ":/");
-
         try {
-
             java.net.URL connectURL = new URL(remoteUri);
-
             HttpURLConnection conn = (HttpURLConnection) connectURL.openConnection();
             try {
                 conn.setRequestMethod("POST");
@@ -83,7 +79,7 @@ class Get extends Thread {
     private final String URL;
     private final NetworkCallback callback;
 
-    public Get(NetworkCallback callback, String URL) {
+    public Get(MapsActivity callback, String URL) {
         this.callback = callback;
         this.URL = URL;
     }
@@ -95,6 +91,7 @@ class Get extends Thread {
         String remoteUri = Uri.encode(URL, ":/");
 
         try {
+
 
             java.net.URL connectURL = new URL(remoteUri);
 
