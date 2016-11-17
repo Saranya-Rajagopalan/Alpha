@@ -72,11 +72,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.getJSONObject(i);
                         BinData bin = new BinData(object);
-//                        double lng = object.getDouble("LatLocation");
-//                        double lat = object.getDouble("LongLocation");
-//                        int id = object.getInt("ID");
                         bin.MarkOnMap(mMap);
-//                        mMap.addMarker( new MarkerOptions().position(new LatLng(lat, lng)).title(String.valueOf(id))).showInfoWindow();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

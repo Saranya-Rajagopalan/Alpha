@@ -41,7 +41,7 @@ public class BinData {
         }
     }
 
-    public static float percentageToColor(double percentage) {
+    public static float percentageToColor(int percentage) {
         if (percentage > 80) {
             return BitmapDescriptorFactory.HUE_RED;
         } else if (percentage < 80 && percentage > 40) {
@@ -53,6 +53,7 @@ public class BinData {
 
 
     void MarkOnMap(GoogleMap mMap) {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(this.Latitude, this.Longitude)).title(this.binName)).setIcon(BitmapDescriptorFactory.defaultMarker(percentageToColor(this.filledPercentage)));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(this.Latitude, this.Longitude)).title("Bin Id"+String.valueOf(this.id))).setIcon(BitmapDescriptorFactory.defaultMarker(percentageToColor(this.filledPercentage)));
     }
+
 }
