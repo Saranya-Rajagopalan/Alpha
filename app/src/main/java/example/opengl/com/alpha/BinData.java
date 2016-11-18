@@ -19,13 +19,12 @@ import org.json.JSONObject;
 public class BinData {
     public int id;
     public String binName;
-    private int capacity;
+    public int capacity;
     private double Latitude;
     private double Longitude;
     public int filledPercentage;
     public String time;
     public LatLng location;
-
 
     BinData(JSONObject object) {
         try {
@@ -36,6 +35,7 @@ public class BinData {
             this.Latitude = object.getDouble("LongLocation");
             this.filledPercentage = object.getInt("FilledPercentage");
             this.time = object.getString("LastCollectedTime");
+            this.location = new LatLng(this.Latitude, this.Longitude);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -53,7 +53,14 @@ public class BinData {
 
 
     void MarkOnMap(GoogleMap mMap) {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(this.Latitude, this.Longitude)).title("Bin Id"+String.valueOf(this.id))).setIcon(BitmapDescriptorFactory.defaultMarker(percentageToColor(this.filledPercentage)));
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(this.location);
+        markerOptions.title(String.valueOf(this.id));
+        mMap.addMarker(markerOptions).setIcon(BitmapDescriptorFactory.defaultMarker(percentageToColor(this.filledPercentage)));
     }
 
+    void getBinDataWith()
+    {
+
+    }
 }
